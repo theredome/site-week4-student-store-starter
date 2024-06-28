@@ -6,12 +6,26 @@ import { formatPrice } from "../../utils/format";
 import "./ProductDetail.css";
 
 function ProductDetail({ addToCart, removeFromCart, getQuantityOfItemInCart }) {
-  
   const { productId } = useParams();
   const [product, setProduct] = useState(null);
   const [isFetching, setIsFetching] = useState(false);
   const [error, setError] = useState(null);
 
+  useEffect(() => {
+    const fetchProduct = async () => {
+      setIsFetching(true);
+      try {
+        const response = await axios.get(`http://localhost:3000/products/${productId}`);
+        setProduct(response.data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setIsFetching(false);
+      }
+    };
+
+    fetchProduct();
+  }, [productId]);
 
   if (error) {
     return <NotFound />;
@@ -25,7 +39,7 @@ function ProductDetail({ addToCart, removeFromCart, getQuantityOfItemInCart }) {
 
   const handleAddToCart = () => {
     if (product.id) {
-      addToCart(product)
+      addToCart(product);
     }
   };
 
@@ -55,6 +69,5 @@ function ProductDetail({ addToCart, removeFromCart, getQuantityOfItemInCart }) {
     </div>
   );
 }
-
 
 export default ProductDetail;

@@ -2,7 +2,7 @@
   "name": "site-week4-student-store-starter",
   "version": "1.0.0",
   "description": "A student store project made using frontend and backend with a prisma data base.",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon server.js"

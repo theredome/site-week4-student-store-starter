@@ -28,6 +28,7 @@ const getOrderByID = async (req, res) => {
 const createOrder = async (req, res) => {
     try {
         const newOrder = await orderModel.createOrder(req.body);
+        console.log(newOrder);
         res.status(201).json(newOrder);
     } catch (error) {
         res.status(400).json({ error: error.message });
@@ -62,11 +63,33 @@ const deleteOrder = async (req, res) => {
     }
 };
 
+// Function to add items to an order
+const addItemToOrder = async (req, res) => {
+    try {
+        const orderItem = await orderModel.addItemToOrder(req.params.order_id, req.body);
+        res.status(201).json(orderItem);
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+};
+
+// Function to calculate the total price of an order
+const getOrderTotal = async (req, res) => {
+    try {
+        const total = await orderModel.calculateOrderTotal(req.params.order_id);
+        res.status(200).json({ total });
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+};
+
 // Export all functions
 module.exports = {
     getAllOrders,
     getOrderByID,
     createOrder,
     updateOrder,
-    deleteOrder
+    deleteOrder,
+    addItemToOrder,
+    getOrderTotal
 };
